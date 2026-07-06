@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.si-calc-wrapper {
+  --si-navy: #0c2637;
+  --si-orange: #f47421;
+  --si-orange-dark: #d9611a;
+  --si-off-white: #faf8f5;
+  --si-border: #ececec;
+  --si-muted: #9aa3ac;
+  --si-success: #2e9e5b;
+  --si-error: #e0503a;
+  color: var(--si-navy);
+}
+
+@layer components {
+  .si-btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-si-orange px-6 py-3 text-[15px] font-bold text-white transition-colors hover:bg-si-orange-dark focus:outline-none focus:ring-2 focus:ring-si-orange focus:ring-offset-2 min-h-[44px];
+  }
+
+  .si-btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border-2 border-si-navy px-6 py-3 text-[15px] font-bold text-si-navy transition-colors hover:bg-si-off-white focus:outline-none focus:ring-2 focus:ring-si-navy focus:ring-offset-2 min-h-[44px];
+  }
+
+  .si-input {
+    @apply w-full rounded-lg border border-si-border bg-white px-4 py-3 text-si-navy placeholder:text-si-muted focus:border-si-orange focus:outline-none focus:ring-[3px] focus:ring-si-orange/15 min-h-[44px];
+  }
+
+  .si-eyebrow {
+    @apply text-[12.5px] font-bold uppercase tracking-[0.08em] text-si-orange;
+  }
+}

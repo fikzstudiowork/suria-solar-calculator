@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+frontend/out/
+frontend/.next/
+dev-data/
+
+# Environment & secrets
+.env
+.env.local
+.env*.local
+backend/config.php
+
+# Uploads (user content)
+uploads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Vercel
+.vercel

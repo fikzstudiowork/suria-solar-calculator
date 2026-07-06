@@ -1,0 +1,18 @@
+# Suria Solar Calculator — Apache rules for cPanel
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Block direct access to config
+<Files "config.php">
+  Require all denied
+</Files>
+
+# SPA fallback for Next.js static export (if needed)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/admin/
+RewriteRule ^ index.html [L]
