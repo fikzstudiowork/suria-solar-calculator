@@ -21,7 +21,7 @@ Repo: **https://github.com/fikzstudiowork/suria-solar-calculator**
 
 1. Pergi [vercel.com/new](https://vercel.com/new) → login dengan GitHub
 2. **Import** repo `fikzstudiowork/suria-solar-calculator`
-3. **Root Directory** → klik Edit → pilih folder **`frontend`**
+3. **Root Directory** → biarkan **kosong** (repo root). Jangan set `frontend` — `vercel.json` di root sudah handle.
 4. **Environment Variables** (wajib):
 
    | Name | Value |
