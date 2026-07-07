@@ -37,17 +37,37 @@ if ($search) {
     $params[] = "%$search%"; $params[] = "%$search%"; $params[] = "%$search%";
 }
 
-$sql = 'SELECT * FROM suria_calc_leads WHERE ' . implode(' AND ', $where) . ' ORDER BY created_at DESC LIMIT 200';
-$stmt = getDb()->prepare($sql);
-$stmt->execute($params);
-$leads = $stmt->fetchAll();
+$dbError = '';
+$leads = [];
+$states = [];
 
-$states = getDb()->query('SELECT DISTINCT state FROM suria_calc_leads WHERE state IS NOT NULL ORDER BY state')->fetchAll(PDO::FETCH_COLUMN);
+try {
+    $sql = 'SELECT * FROM suria_calc_leads WHERE ' . implode(' AND ', $where) . ' ORDER BY created_at DESC LIMIT 200';
+    $stmt = getDb()->prepare($sql);
+    $stmt->execute($params);
+    $leads = $stmt->fetchAll();
+    $states = getDb()->query(
+        'SELECT DISTINCT state FROM suria_calc_leads WHERE state IS NOT NULL ORDER BY state'
+    )->fetchAll(PDO::FETCH_COLUMN);
+} catch (Throwable $e) {
+    $dbError = $e->getMessage();
+}
+
 $stats = getLeadStats();
 $settings = getSiteSettings();
 $waBase = 'https://wa.me/' . preg_replace('/\D/', '', $settings['whatsapp_number']);
 
 adminHeader('Leads Dashboard', 'dashboard');
+
+if ($dbError !== ''):
+?>
+<div class="error">
+  <strong>Database setup incomplete.</strong>
+  Leads table missing or not accessible. Import <code>schema.sql</code> via phpMyAdmin, then reload this page.
+  <br><small style="opacity:0.8"><?= e($dbError) ?></small>
+</div>
+<?php
+endif;
 ?>
 
 <div class="stats">

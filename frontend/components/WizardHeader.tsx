@@ -17,11 +17,13 @@ export default function WizardHeader() {
         <div className="flex items-center gap-3">
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-si-orange">
             <Image
+              key={s.logo_url}
               src={s.logo_url || "/images/logo-suria.svg"}
               alt={s.company_name}
               fill
               className="object-contain p-1.5"
               sizes="40px"
+              unoptimized
             />
           </div>
           <div>

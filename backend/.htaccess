@@ -1,18 +1,30 @@
 # Suria Solar Calculator — Apache rules for cPanel
 
-# Force HTTPS
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Block direct access to config
 <Files "config.php">
   Require all denied
 </Files>
 
-# SPA fallback for Next.js static export (if needed)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/api/
-RewriteCond %{REQUEST_URI} !^/admin/
+# Admin login shortcut
+RewriteRule ^admin/?$ /admin/login.php [L,R=302]
+
+# Serve static assets — never rewrite to index.html
+RewriteRule ^next/ - [L]
+RewriteRule ^images/ - [L]
+RewriteRule ^uploads/ - [L]
+RewriteRule ^api/ - [L]
+RewriteRule ^admin/ - [L]
+
+# PHP endpoints at document root (health check, setup helpers)
+RewriteRule \.(php)$ - [L]
+
+# Existing files/directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# SPA fallback (Next.js static export)
 RewriteRule ^ index.html [L]

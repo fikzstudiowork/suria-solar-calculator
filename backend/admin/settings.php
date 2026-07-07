@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setSiteSetting('google_reviews_enabled', isset($_POST['google_reviews_enabled']) ? '1' : '0');
 
         if (!empty($_FILES['logo_file']['tmp_name']) && is_uploaded_file($_FILES['logo_file']['tmp_name'])) {
-            $uploadDir = dirname(__DIR__, 2) . '/uploads/';
+            $uploadDir = dirname(__DIR__) . '/uploads/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
@@ -42,14 +42,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (in_array($ext, ['png', 'jpg', 'jpeg', 'webp', 'svg'], true)) {
                 $dest = $uploadDir . 'logo.' . $ext;
                 if (move_uploaded_file($_FILES['logo_file']['tmp_name'], $dest)) {
-                    setSiteSetting('logo_url', '/uploads/logo.' . $ext);
+                    setSiteSetting('logo_url', '/uploads/logo.' . $ext . '?v=' . time());
+                } else {
+                    $error = 'Logo upload failed — check that the uploads/ folder is writable (chmod 755).';
                 }
+            } else {
+                $error = 'Logo must be PNG, JPG, WEBP, or SVG.';
             }
         }
 
-        $message = 'Settings saved successfully.';
-    }
-}
+        if ($error === '') {
+            $message = 'Settings saved successfully.';
+        }
 
 $settings = getSiteSettings();
 $manualReviewsPretty = $settings['manual_reviews_json'];

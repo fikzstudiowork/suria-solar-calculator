@@ -23,3 +23,14 @@ Thumbs.db
 
 # Vercel
 .vercel
+
+# cPanel deploy output (rebuild with deploy/build-cpanel.bat)
+deploy/cpanel-upload/
+deploy/*.zip
+deploy/ftp-credentials.ps1
+deploy/db-credentials.ps1
+
+# Accidental zip exports
+*.zip
+backend/*.zip
+frontend/*.zip

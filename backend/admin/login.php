@@ -16,11 +16,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    if ($username && $password && attemptLogin($username, $password)) {
-        header('Location: /admin/dashboard.php');
-        exit;
+    try {
+        if ($username && $password && attemptLogin($username, $password)) {
+            header('Location: /admin/dashboard.php');
+            exit;
+        }
+        $error = 'Invalid username or password.';
+    } catch (Throwable $e) {
+        $msg = $e->getMessage();
+        if (stripos($msg, 'Access denied') !== false || stripos($msg, 'Unknown database') !== false) {
+            $error = 'Database not configured. Open /setup-config-web.php first, import schema.sql, then try again.';
+        } else {
+            $error = 'Server error: ' . $msg;
+        }
     }
-    $error = 'Invalid username or password.';
 }
 ?>
 <!DOCTYPE html>

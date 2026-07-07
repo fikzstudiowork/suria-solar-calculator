@@ -71,18 +71,23 @@ function setSiteSetting(string $key, string $value): void
 
 function getLeadStats(): array
 {
-    $db = getDb();
-    $total = (int) $db->query('SELECT COUNT(*) FROM suria_calc_leads')->fetchColumn();
-    $newToday = (int) $db->query(
-        "SELECT COUNT(*) FROM suria_calc_leads WHERE DATE(created_at) = CURDATE()"
-    )->fetchColumn();
-    $byStatus = $db->query(
-        "SELECT status, COUNT(*) AS cnt FROM suria_calc_leads GROUP BY status"
-    )->fetchAll(PDO::FETCH_KEY_PAIR);
+    $empty = ['total' => 0, 'new_today' => 0, 'by_status' => []];
+    try {
+        $db = getDb();
+        $total = (int) $db->query('SELECT COUNT(*) FROM suria_calc_leads')->fetchColumn();
+        $newToday = (int) $db->query(
+            "SELECT COUNT(*) FROM suria_calc_leads WHERE DATE(created_at) = CURDATE()"
+        )->fetchColumn();
+        $byStatus = $db->query(
+            "SELECT status, COUNT(*) AS cnt FROM suria_calc_leads GROUP BY status"
+        )->fetchAll(PDO::FETCH_KEY_PAIR);
 
-    return [
-        'total' => $total,
-        'new_today' => $newToday,
-        'by_status' => $byStatus ?: [],
-    ];
+        return [
+            'total' => $total,
+            'new_today' => $newToday,
+            'by_status' => $byStatus ?: [],
+        ];
+    } catch (Throwable $e) {
+        return $empty;
+    }
 }
