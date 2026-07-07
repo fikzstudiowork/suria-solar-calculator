@@ -1,6 +1,13 @@
 # Akses Admin Dashboard
 
-Admin **bukan** di Vercel — ia ada dalam folder **PHP backend**. Vercel hanya host calculator (frontend).
+> ⚠️ **`calculator.suriainfiniti.com` belum wujud dalam DNS** — subdomain perlu dicipta dalam cPanel dulu.  
+> Lihat **`SETUP-DNS-MUDAH.md`** untuk langkah penuh.
+
+## Guna sementara (calculator sahaja)
+
+**https://suria-solar-calculator.vercel.app** — frontend live, admin belum available.
+
+Admin **bukan** di Vercel — ia perlukan **PHP + MySQL di cPanel**.
 
 ## Production (cPanel)
 
