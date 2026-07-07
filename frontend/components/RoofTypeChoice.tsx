@@ -11,39 +11,44 @@ interface RoofTypeChoiceProps {
 
 export default function RoofTypeChoice({ value, onChange }: RoofTypeChoiceProps) {
   return (
-    <fieldset className="space-y-3">
+    <fieldset className="grid gap-4 sm:grid-cols-2">
       {ROOF_TYPES.map((option) => {
         const selected = value === option;
         const imgSrc = ROOF_TYPE_IMAGES[option];
         return (
           <label
             key={option}
-            className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all min-h-[64px] ${
+            className={`group cursor-pointer overflow-hidden rounded-2xl border transition-all ${
               selected
                 ? "border-2 border-si-orange bg-si-orange/[0.06] shadow-sm"
                 : "border border-si-border bg-white hover:border-si-orange/40"
             }`}
           >
-            <input
-              type="radio"
-              name="roofType"
-              value={option}
-              checked={selected}
-              onChange={() => onChange(option)}
-              className="h-5 w-5 shrink-0 accent-si-orange"
-            />
             {imgSrc && (
-              <div className="relative h-12 w-16 shrink-0">
+              <div className="relative h-32 w-full bg-si-cream sm:h-36">
                 <Image
                   src={imgSrc}
                   alt=""
                   fill
-                  className="object-contain"
-                  sizes="64px"
+                  className="object-cover"
+                  sizes="(min-width: 640px) 320px, 100vw"
+                  unoptimized
                 />
               </div>
             )}
-            <span className="flex-1 text-[15px] font-medium text-si-navy">{option}</span>
+            <div className="flex items-center gap-3 p-4">
+              <input
+                type="radio"
+                name="roofType"
+                value={option}
+                checked={selected}
+                onChange={() => onChange(option)}
+                className="size-5 shrink-0 accent-si-orange"
+              />
+              <span className="flex-1 text-[15px] font-semibold text-si-navy">
+                {option}
+              </span>
+            </div>
           </label>
         );
       })}

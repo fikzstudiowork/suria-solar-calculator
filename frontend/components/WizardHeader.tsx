@@ -15,18 +15,18 @@ export default function WizardHeader() {
     <header className="bg-si-navy text-white">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
-          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-si-orange">
+          <div className="relative h-12 w-40 shrink-0 overflow-hidden rounded-md bg-white/95 p-1.5 sm:w-48">
             <Image
               key={s.logo_url}
               src={s.logo_url || "/images/logo-suria.svg"}
               alt={s.company_name}
               fill
-              className="object-contain p-1.5"
-              sizes="40px"
+              className="object-contain"
+              sizes="(min-width: 640px) 192px, 160px"
               unoptimized
             />
           </div>
-          <div>
+          <div className="hidden sm:block">
             <span className="text-lg font-extrabold tracking-tight">{s.company_name}</span>
             <p className="hidden text-xs text-white/70 sm:block">{s.company_tagline}</p>
           </div>
