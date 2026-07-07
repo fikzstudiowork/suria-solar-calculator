@@ -15,14 +15,14 @@ export default function WizardHeader() {
     <header className="bg-si-navy text-white">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3 sm:gap-4">
-          <div className="relative h-12 w-36 shrink-0 overflow-hidden rounded-xl bg-white shadow-sm sm:h-14 sm:w-48">
+          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-white shadow-sm sm:h-12 sm:w-12">
             <Image
               key={s.logo_url}
               src={s.logo_url || "/images/logo-suria.svg"}
               alt={s.company_name}
               fill
-              className="object-contain p-2 sm:p-2.5"
-              sizes="(min-width: 640px) 192px, 144px"
+              className="object-contain p-1.5"
+              sizes="48px"
               unoptimized
             />
           </div>
