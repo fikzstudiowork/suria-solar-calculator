@@ -54,6 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($error === '') {
             $message = 'Settings saved successfully.';
         }
+    }
+}
 
 $settings = getSiteSettings();
 $manualReviewsPretty = $settings['manual_reviews_json'];
