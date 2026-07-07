@@ -16,11 +16,11 @@
 
 @layer components {
   .si-btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg bg-si-orange px-6 py-3 text-[15px] font-bold text-white transition-colors hover:bg-si-orange-dark focus:outline-none focus:ring-2 focus:ring-si-orange focus:ring-offset-2 min-h-[44px];
+    @apply inline-flex items-center justify-center rounded-lg bg-si-orange px-6 py-3 text-[15px] font-bold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-si-orange-dark hover:shadow-lg active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-si-orange focus:ring-offset-2 min-h-[44px];
   }
 
   .si-btn-secondary {
-    @apply inline-flex items-center justify-center rounded-lg border-2 border-si-navy px-6 py-3 text-[15px] font-bold text-si-navy transition-colors hover:bg-si-off-white focus:outline-none focus:ring-2 focus:ring-si-navy focus:ring-offset-2 min-h-[44px];
+    @apply inline-flex items-center justify-center rounded-lg border-2 border-si-navy px-6 py-3 text-[15px] font-bold text-si-navy transition-all duration-150 hover:-translate-y-0.5 hover:bg-si-off-white hover:shadow-md active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-si-navy focus:ring-offset-2 min-h-[44px];
   }
 
   .si-input {

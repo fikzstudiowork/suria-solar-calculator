@@ -65,6 +65,10 @@ if ($manualReviewsPretty === '') {
 adminHeader('Site Settings', 'settings');
 ?>
 
+<div class="page-head">
+  <h2>Site Settings</h2>
+</div>
+
 <?php if ($message): ?>
   <div class="success"><?= e($message) ?></div>
 <?php endif; ?>

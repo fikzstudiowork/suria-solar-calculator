@@ -46,6 +46,8 @@ export interface LeadPayload {
   propertyType: string;
   monthlyBill: number;
   roofExposure: string;
+  meterPhase: string;
+  usagePattern: string;
   recommendedKwp: number;
   estMonthlySavings: number;
   estAnnualSavings: number;

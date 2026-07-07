@@ -47,6 +47,8 @@ $phone = sanitizeString($data['phone'] ?? '', 30);
 $state = sanitizeString($data['state'] ?? '', 60);
 $propertyType = sanitizeString($data['propertyType'] ?? '', 60);
 $roofExposure = sanitizeString($data['roofExposure'] ?? '', 30);
+$meterPhase = sanitizeString($data['meterPhase'] ?? '', 30);
+$usagePattern = sanitizeString($data['usagePattern'] ?? '', 80);
 
 if (!$fullName || !$email || !$phone || !$state) {
     jsonError('Missing required fields');
@@ -76,7 +78,7 @@ if (empty($data['consent'])) {
 
 // Server-side recalculation
 $config = getAllCalcConfig();
-$computed = calculateServerSide($monthlyBill, $roofExposure, $config);
+$computed = calculateServerSide($monthlyBill, $roofExposure, $config, $meterPhase, $usagePattern);
 
 $clientKwp = (float) ($data['recommendedKwp'] ?? 0);
 $clientMonthly = (float) ($data['estMonthlySavings'] ?? 0);

@@ -11,44 +11,40 @@ interface RoofTypeChoiceProps {
 
 export default function RoofTypeChoice({ value, onChange }: RoofTypeChoiceProps) {
   return (
-    <fieldset className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+    <fieldset className="flex flex-col gap-2.5 sm:gap-3">
       {ROOF_TYPES.map((option) => {
         const selected = value === option;
         const imgSrc = ROOF_TYPE_IMAGES[option];
         return (
           <label
             key={option}
-            className={`relative flex cursor-pointer flex-col items-center justify-between gap-3 rounded-2xl border-2 p-3 text-center transition-all hover:shadow-md sm:p-4 ${
+            className={`flex min-h-[64px] cursor-pointer items-center gap-3 rounded-xl border p-3 transition-all duration-200 sm:gap-4 sm:p-4 ${
               selected
-                ? "border-si-orange bg-si-orange/[0.04] shadow-sm"
-                : "border-gray-100 bg-white shadow-sm hover:border-si-orange/30"
+                ? "border-2 border-si-orange bg-si-orange/[0.06] shadow-sm"
+                : "border border-si-border bg-white hover:-translate-y-0.5 hover:border-si-orange/40 hover:shadow-sm"
             }`}
           >
-            <div className="absolute left-3 top-3 sm:left-4 sm:top-4">
-              <input
-                type="radio"
-                name="roofType"
-                value={option}
-                checked={selected}
-                onChange={() => onChange(option)}
-                className="h-4 w-4 accent-si-orange sm:h-5 sm:w-5"
-              />
-            </div>
+            <input
+              type="radio"
+              name="roofType"
+              value={option}
+              checked={selected}
+              onChange={() => onChange(option)}
+              className="h-5 w-5 shrink-0 accent-si-orange"
+            />
             {imgSrc && (
-              <div className="relative mt-6 h-16 w-24 shrink-0 sm:mt-8 sm:h-20 sm:w-28">
+              <div className="relative h-11 w-11 shrink-0 sm:h-12 sm:w-12">
                 <Image
                   src={imgSrc}
                   alt=""
                   fill
-                  className={`object-contain transition-transform duration-300 ${
-                    selected ? "scale-110 drop-shadow-md" : "scale-100 opacity-70"
-                  }`}
-                  sizes="120px"
+                  className="object-contain"
+                  sizes="48px"
                   unoptimized
                 />
               </div>
             )}
-            <span className={`text-sm font-bold leading-snug sm:text-[15px] ${selected ? 'text-si-navy' : 'text-si-navy/80'}`}>
+            <span className="flex-1 text-sm font-medium text-si-navy sm:text-[15px]">
               {option}
             </span>
           </label>

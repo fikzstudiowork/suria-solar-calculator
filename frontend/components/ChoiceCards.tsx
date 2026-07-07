@@ -26,10 +26,10 @@ export default function ChoiceCards({
           return (
             <label
               key={option}
-              className={`flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors min-h-[44px] ${
+              className={`flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-200 min-h-[44px] ${
                 selected
-                  ? "border-2 border-si-orange bg-si-orange/[0.06]"
-                  : "border border-si-border bg-white hover:border-si-orange/40"
+                  ? "border-2 border-si-orange bg-si-orange/[0.06] shadow-sm"
+                  : "border border-si-border bg-white hover:-translate-y-0.5 hover:border-si-orange/40 hover:shadow-sm"
               }`}
             >
               <input

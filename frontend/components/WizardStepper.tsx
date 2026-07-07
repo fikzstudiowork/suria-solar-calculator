@@ -17,11 +17,11 @@ export default function WizardStepper({ currentStep }: WizardStepperProps) {
             return (
               <li key={n} className="flex items-center">
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-colors ${
+                  className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-300 ${
                     done
                       ? "bg-si-navy text-white"
                       : active
-                        ? "bg-si-orange text-white ring-4 ring-si-orange/20"
+                        ? "scale-110 bg-si-orange text-white ring-4 ring-si-orange/20"
                         : "border-2 border-si-border bg-white text-si-muted"
                   }`}
                   aria-current={active ? "step" : undefined}
@@ -29,11 +29,13 @@ export default function WizardStepper({ currentStep }: WizardStepperProps) {
                   {done ? "✓" : n}
                 </span>
                 {n < WIZARD_STEPS && (
-                  <span
-                    className={`mx-1 h-0.5 w-6 sm:w-10 ${
-                      done ? "bg-si-navy" : "bg-si-border"
-                    }`}
-                  />
+                  <span className="mx-1 h-0.5 w-6 overflow-hidden rounded-full bg-si-border sm:w-10">
+                    <span
+                      className={`block h-full bg-si-navy transition-transform duration-500 ease-out ${
+                        done ? "translate-x-0" : "-translate-x-full"
+                      }`}
+                    />
+                  </span>
                 )}
               </li>
             );

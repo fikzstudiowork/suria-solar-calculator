@@ -40,22 +40,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Admin Login — Suria Solar Calculator</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', sans-serif; background: #FAF8F5; color: #0C2637; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    .card { background: #fff; border: 1px solid #ECECEC; border-radius: 16px; padding: 40px; width: 100%; max-width: 400px; }
-    h1 { font-size: 22px; margin-bottom: 8px; }
-    p { color: #9AA3AC; font-size: 14px; margin-bottom: 24px; }
+    body {
+      font-family: 'Segoe UI', sans-serif; color: #0C2637; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      background: linear-gradient(155deg, #0C2637 0%, #163A50 55%, #0C2637 100%);
+    }
+    .card {
+      background: #fff; border-radius: 20px; padding: 44px 40px; width: 100%; max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .brand { display: flex; align-items: center; gap: 9px; margin-bottom: 22px; }
+    .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: #F47421; box-shadow: 0 0 0 4px rgba(244,116,33,0.15); }
+    .brand span { font-size: 14px; font-weight: 800; letter-spacing: 0.02em; color: #0C2637; }
+    .brand span em { color: #F47421; font-style: normal; }
+    h1 { font-size: 22px; margin-bottom: 6px; font-weight: 800; }
+    p { color: #9AA3AC; font-size: 14px; margin-bottom: 26px; }
     label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    input { width: 100%; padding: 12px; border: 1px solid #ECECEC; border-radius: 8px; font-size: 15px; margin-bottom: 16px; }
+    input { width: 100%; padding: 12px 14px; border: 1px solid #ECECEC; border-radius: 10px; font-size: 15px; margin-bottom: 16px; transition: border-color .15s, box-shadow .15s; }
     input:focus { outline: none; border-color: #F47421; box-shadow: 0 0 0 3px rgba(244,116,33,0.15); }
-    button { width: 100%; padding: 12px; background: #F47421; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    button {
+      width: 100%; padding: 13px; background: #F47421; color: #fff; border: none; border-radius: 10px;
+      font-size: 15px; font-weight: 700; cursor: pointer; transition: background .15s, transform .1s;
+    }
     button:hover { background: #D9611A; }
-    .error { color: #E0503A; font-size: 13px; margin-bottom: 16px; }
+    button:active { transform: scale(0.98); }
+    .error { background: rgba(217,48,37,0.08); color: #D93025; font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Admin Login</h1>
-    <p>Suria Solar Calculator — Leads Dashboard</p>
+    <div class="brand"><span class="dot"></span><span>Suria <em>Admin</em></span></div>
+    <h1>Welcome back</h1>
+    <p>Sign in to manage leads and site settings.</p>
     <?php if ($error): ?>
       <p class="error"><?= e($error) ?></p>
     <?php endif; ?>

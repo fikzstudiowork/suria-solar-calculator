@@ -20,10 +20,10 @@ export default function VerticalChoice({
         return (
           <label
             key={option}
-            className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all min-h-[52px] ${
+            className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all duration-200 min-h-[52px] ${
               selected
                 ? "border-2 border-si-orange bg-si-orange/[0.06] shadow-sm"
-                : "border border-si-border bg-white hover:border-si-orange/40"
+                : "border border-si-border bg-white hover:-translate-y-0.5 hover:border-si-orange/40 hover:shadow-sm"
             }`}
           >
             <input

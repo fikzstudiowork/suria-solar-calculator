@@ -93,12 +93,16 @@ function verifyCsrf(token) {
   return data.exp > Date.now();
 }
 
-function calculate(bill, exposure) {
+function calculate(bill, exposure, meterPhase = "", usagePattern = "") {
   const ef = CONFIG.exposureFactors[exposure] ?? 1.15;
+  const meterMult = meterPhase === "3 phase" ? 1.12 : 1.0;
+  const offset = usagePattern.includes("mornings and evenings")
+    ? CONFIG.offsetPercent * 0.82
+    : CONFIG.offsetPercent;
   const kwh = bill / CONFIG.tariffRate;
-  const kwp = (kwh * ef) / (CONFIG.sunHours * 30 * CONFIG.derate);
+  const kwp = (kwh * ef * meterMult) / (CONFIG.sunHours * 30 * CONFIG.derate);
   const annualGen = kwp * CONFIG.sunHours * 365 * CONFIG.derate;
-  const genVal = (annualGen / 12) * CONFIG.tariffRate * CONFIG.offsetPercent;
+  const genVal = (annualGen / 12) * CONFIG.tariffRate * offset;
   const monthly = Math.min(bill, genVal);
   const annual = monthly * 12;
   const cost = kwp * CONFIG.costPerKwp;
@@ -180,7 +184,7 @@ const server = http.createServer(async (req, res) => {
       return json(res, { success: false, message: "Missing fields" }, 400);
     }
 
-    const computed = calculate(data.monthlyBill, data.roofExposure);
+    const computed = calculate(data.monthlyBill, data.roofExposure, data.meterPhase, data.usagePattern);
     if (
       !match(data.recommendedKwp, computed.recommendedKwp) ||
       !match(data.estMonthlySavings, computed.estMonthlySavings, 1) ||

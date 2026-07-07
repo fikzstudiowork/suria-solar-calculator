@@ -3,23 +3,37 @@
 require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/db.php';
 
+function meterMultiplier(string $meterPhase): float
+{
+    return $meterPhase === '3 phase' ? 1.12 : 1.0;
+}
+
+function usageOffset(string $usagePattern, float $base): float
+{
+    return str_contains($usagePattern, 'mornings and evenings') ? $base * 0.82 : $base;
+}
+
 function calculateServerSide(
     float $monthlyBill,
     string $roofExposure,
-    array $config
+    array $config,
+    string $meterPhase = '',
+    string $usagePattern = ''
 ): array {
     $exposureFactors = $config['exposureFactors'];
     $exposureFactor = $exposureFactors[$roofExposure] ?? 1.15;
+    $meterMult = meterMultiplier($meterPhase);
+    $offset = usageOffset($usagePattern, $config['offsetPercent']);
 
     $kwhMonth = $monthlyBill / $config['tariffRate'];
     $recommendedKwp =
-        ($kwhMonth * $exposureFactor) /
+        ($kwhMonth * $exposureFactor * $meterMult) /
         ($config['sunHours'] * 30 * $config['derate']);
 
     $annualGen =
         $recommendedKwp * $config['sunHours'] * 365 * $config['derate'];
     $generationValueMonthly =
-        ($annualGen / 12) * $config['tariffRate'] * $config['offsetPercent'];
+        ($annualGen / 12) * $config['tariffRate'] * $offset;
 
     $estMonthlySavings = min($monthlyBill, $generationValueMonthly);
     $estAnnualSavings = $estMonthlySavings * 12;

@@ -29,6 +29,7 @@ type View = "wizard" | "results";
 export default function CalculatorPage() {
   const [view, setView] = useState<View>("wizard");
   const [wizardStep, setWizardStep] = useState(1);
+  const [direction, setDirection] = useState<"forward" | "backward">("forward");
   const [config, setConfig] = useState<CalcConfig | null>(null);
   const [submittedName, setSubmittedName] = useState("");
 
@@ -71,11 +72,17 @@ export default function CalculatorPage() {
   }
 
   function goNext() {
-    if (wizardStep < 6) setWizardStep((s) => s + 1);
+    if (wizardStep < 6) {
+      setDirection("forward");
+      setWizardStep((s) => s + 1);
+    }
   }
 
   function goPrevious() {
-    if (wizardStep > 1) setWizardStep((s) => s - 1);
+    if (wizardStep > 1) {
+      setDirection("backward");
+      setWizardStep((s) => s - 1);
+    }
   }
 
   if (view === "results" && results) {
@@ -97,9 +104,14 @@ export default function CalculatorPage() {
       <WizardHeader />
       <WizardStepper currentStep={wizardStep} />
 
-      <main className="flex-1 bg-si-off-white/50">
+      <main className="flex-1 overflow-x-hidden bg-si-off-white/50">
         {wizardStep === 6 ? (
-          <div className="mx-auto grid max-w-5xl gap-8 px-4 py-8 lg:grid-cols-2 lg:py-12">
+          <div
+            key={wizardStep}
+            className={`mx-auto grid max-w-5xl gap-8 px-4 py-8 lg:grid-cols-2 lg:py-12 ${
+              direction === "forward" ? "animate-step-in-forward" : "animate-step-in-backward"
+            }`}
+          >
             <TrustPanel />
             <div className="rounded-2xl border border-si-border bg-white p-6 shadow-sm sm:p-8">
               <h1 className="text-xl font-extrabold text-si-navy sm:text-2xl">
@@ -108,7 +120,7 @@ export default function CalculatorPage() {
               <p className="mt-2 text-sm text-si-muted">
                 Enter your details to see your personalised solar savings report.
               </p>
-              {results && (
+              {results ? (
                 <LeadForm
                   inputs={inputs}
                   results={results}
@@ -118,11 +130,23 @@ export default function CalculatorPage() {
                     setView("results");
                   }}
                 />
+              ) : (
+                <div className="mt-6 space-y-4" aria-hidden="true">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="h-11 animate-pulse rounded-lg bg-si-off-white" />
+                  ))}
+                  <div className="h-12 w-full animate-pulse rounded-full bg-si-off-white" />
+                </div>
               )}
             </div>
           </div>
         ) : (
-          <div className="mx-auto max-w-xl px-4 py-10 sm:py-14">
+          <div
+            key={wizardStep}
+            className={`mx-auto max-w-xl px-4 py-10 sm:py-14 ${
+              direction === "forward" ? "animate-step-in-forward" : "animate-step-in-backward"
+            }`}
+          >
             <h1 className="mb-8 text-center text-xl font-extrabold text-si-navy sm:text-2xl">
               {STEP_TITLES[wizardStep]}
             </h1>

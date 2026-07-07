@@ -70,11 +70,27 @@ if ($dbError !== ''):
 endif;
 ?>
 
+<div class="page-head">
+  <h2>Leads Dashboard</h2>
+</div>
+
 <div class="stats">
-  <div class="stat-card"><div class="val"><?= (int)$stats['total'] ?></div><div class="lbl">Total Leads</div></div>
-  <div class="stat-card"><div class="val"><?= (int)$stats['new_today'] ?></div><div class="lbl">New Today</div></div>
-  <div class="stat-card"><div class="val"><?= (int)($stats['by_status']['new'] ?? 0) ?></div><div class="lbl">Awaiting Contact</div></div>
-  <div class="stat-card"><div class="val"><?= (int)($stats['by_status']['quoted'] ?? 0) ?></div><div class="lbl">Quoted</div></div>
+  <div class="stat-card">
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+    <div class="val"><?= (int)$stats['total'] ?></div><div class="lbl">Total Leads</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></div>
+    <div class="val"><?= (int)$stats['new_today'] ?></div><div class="lbl">New Today</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+    <div class="val"><?= (int)($stats['by_status']['new'] ?? 0) ?></div><div class="lbl">Awaiting Contact</div>
+  </div>
+  <div class="stat-card">
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
+    <div class="val"><?= (int)($stats['by_status']['quoted'] ?? 0) ?></div><div class="lbl">Quoted</div>
+  </div>
 </div>
 
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px">
@@ -93,6 +109,7 @@ endif;
 </form>
 
 <div class="card" style="padding:0;overflow:hidden">
+  <div class="table-wrap">
   <table>
     <thead>
       <tr>
@@ -115,9 +132,10 @@ endif;
             <td><?= e($lead['recommended_kwp']) ?></td>
             <td>RM <?= e(number_format((float)$lead['est_monthly_savings'], 0)) ?></td>
             <td>
-              <form method="post" style="margin:0">
+              <span class="pill pill-<?= e($lead['status']) ?>"><?= e($lead['status']) ?></span>
+              <form method="post" style="margin:6px 0 0">
                 <input type="hidden" name="lead_id" value="<?= (int)$lead['id'] ?>">
-                <select name="status" onchange="this.form.submit()" style="padding:4px 8px;border:1px solid #ECECEC;border-radius:6px;font-size:12px">
+                <select name="status" onchange="this.form.submit()" style="padding:4px 8px;border:1px solid #ECECEC;border-radius:6px;font-size:12px;margin-bottom:0">
                   <?php foreach (['new','contacted','quoted','closed'] as $s): ?>
                     <option value="<?= $s ?>" <?= $lead['status'] === $s ? 'selected' : '' ?>><?= ucfirst($s) ?></option>
                   <?php endforeach; ?>
@@ -131,6 +149,7 @@ endif;
       <?php endif; ?>
     </tbody>
   </table>
+  </div>
 </div>
 
 <?php adminFooter(); ?>

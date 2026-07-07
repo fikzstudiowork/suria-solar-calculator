@@ -108,6 +108,8 @@ export default function LeadForm({
         propertyType: inputs.propertyType,
         monthlyBill: inputs.monthlyBill,
         roofExposure: inputs.roofExposure,
+        meterPhase: inputs.meterPhase,
+        usagePattern: inputs.usagePattern,
         recommendedKwp: results.recommendedKwp,
         estMonthlySavings: results.estMonthlySavings,
         estAnnualSavings: results.estAnnualSavings,

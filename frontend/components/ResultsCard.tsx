@@ -1,17 +1,38 @@
 "use client";
 
 import type { CalcResults } from "@/lib/calculate";
+import { useCountUp } from "@/lib/useCountUp";
 
 interface ResultsCardProps {
   results: CalcResults;
   onGetQuote: () => void;
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({
+  label,
+  target,
+  decimals = 0,
+  prefix = "",
+  suffix = "",
+}: {
+  label: string;
+  target: number;
+  decimals?: number;
+  prefix?: string;
+  suffix?: string;
+}) {
+  const animated = useCountUp(target);
+  const display =
+    decimals > 0
+      ? animated.toFixed(decimals)
+      : Math.round(animated).toLocaleString();
+
   return (
     <div className="flex flex-col items-center px-4 py-2 text-center">
-      <span className="text-[clamp(22px,2.4vw,30px)] font-extrabold text-si-orange">
-        {value}
+      <span className="text-[clamp(22px,2.4vw,30px)] font-extrabold tabular-nums text-si-orange">
+        {prefix}
+        {display}
+        {suffix}
       </span>
       <span className="mt-1 text-[11.5px] font-semibold uppercase tracking-wide text-si-muted">
         {label}
@@ -32,22 +53,10 @@ export default function ResultsCard({ results, onGetQuote }: ResultsCardProps) {
 
       <div className="rounded-2xl border border-si-border bg-si-off-white p-5 sm:p-8">
         <div className="grid grid-cols-2 gap-4 divide-si-border sm:grid-cols-4 sm:divide-x">
-          <Stat
-            label="System Size"
-            value={`${results.recommendedKwp} kWp`}
-          />
-          <Stat
-            label="Monthly Savings"
-            value={`RM ${results.estMonthlySavings.toLocaleString()}`}
-          />
-          <Stat
-            label="Annual Savings"
-            value={`RM ${results.estAnnualSavings.toLocaleString()}`}
-          />
-          <Stat
-            label="Payback Period"
-            value={`${results.paybackYears} yrs`}
-          />
+          <Stat label="System Size" target={results.recommendedKwp} decimals={2} suffix=" kWp" />
+          <Stat label="Monthly Savings" target={results.estMonthlySavings} prefix="RM " />
+          <Stat label="Annual Savings" target={results.estAnnualSavings} prefix="RM " />
+          <Stat label="Payback Period" target={results.paybackYears} decimals={1} suffix=" yrs" />
         </div>
       </div>
 

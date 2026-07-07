@@ -3,6 +3,7 @@
 import type { CalcInputs, CalcResults } from "@/lib/calculate";
 import { buildWhatsAppUrl, formatRm } from "@/lib/calculate";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
+import { useCountUp } from "@/lib/useCountUp";
 
 interface ResultsPageProps {
   inputs: CalcInputs;
@@ -13,24 +14,40 @@ interface ResultsPageProps {
 
 function StatBlock({
   icon,
-  value,
+  target,
+  format,
   label,
 }: {
   icon: string;
-  value: string;
+  target: number;
+  format: (v: number) => string;
   label: string;
 }) {
+  const animated = useCountUp(target);
   return (
     <div className="flex flex-col items-center px-3 py-4 text-center">
       <span className="mb-2 text-2xl" aria-hidden="true">{icon}</span>
-      <span className="text-[clamp(20px,2.2vw,28px)] font-extrabold text-si-orange">
-        {value}
+      <span className="text-[clamp(20px,2.2vw,28px)] font-extrabold tabular-nums text-si-orange">
+        {format(animated)}
       </span>
       <span className="mt-1 text-[11px] font-semibold uppercase leading-tight tracking-wide text-si-muted">
         {label}
       </span>
     </div>
   );
+}
+
+function CountUpText({
+  target,
+  format,
+  className,
+}: {
+  target: number;
+  format: (v: number) => string;
+  className?: string;
+}) {
+  const animated = useCountUp(target);
+  return <span className={`tabular-nums ${className ?? ""}`}>{format(animated)}</span>;
 }
 
 export default function ResultsPage({
@@ -62,7 +79,7 @@ export default function ResultsPage({
       <div className="rounded-2xl border border-si-border bg-si-off-white p-6 sm:p-8">
         <p className="text-sm font-semibold text-si-muted">Upfront Purchase Estimate</p>
         <p className="mt-1 text-[clamp(28px,4vw,36px)] font-extrabold text-si-navy">
-          {formatRm(results.estSystemCost)}
+          <CountUpText target={results.estSystemCost} format={(v) => formatRm(v)} />
         </p>
         <p className="mt-1 text-sm text-si-muted">
           Installation cost · Breakeven{" "}
@@ -85,17 +102,20 @@ export default function ResultsPage({
           <div className="grid grid-cols-1 divide-y divide-si-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             <StatBlock
               icon="☀️"
-              value={`${results.recommendedKwp} kWp`}
+              target={results.recommendedKwp}
+              format={(v) => `${v.toFixed(2)} kWp`}
               label="Recommended Installation Size"
             />
             <StatBlock
               icon="⚡"
-              value={`${results.annualGenerationMwh} MWh`}
+              target={results.annualGenerationMwh}
+              format={(v) => `${v.toFixed(2)} MWh`}
               label="Annual Clean Energy Generated"
             />
             <StatBlock
               icon="💵"
-              value={formatRm(results.estAnnualSavings)}
+              target={results.estAnnualSavings}
+              format={(v) => formatRm(v)}
               label="Annual Bill Savings"
             />
           </div>
@@ -119,10 +139,11 @@ export default function ResultsPage({
         <div className="rounded-2xl border border-si-border bg-si-off-white p-6 sm:p-8">
           <p className="text-sm font-semibold text-si-muted">Savings on electricity bills</p>
           <p className="mt-2 text-2xl font-extrabold text-si-navy">
-            {formatRm(results.estAnnualSavings, true)} Annually
+            <CountUpText target={results.estAnnualSavings} format={(v) => formatRm(v, true)} /> Annually
           </p>
           <p className="mt-4 text-[clamp(22px,3vw,30px)] font-extrabold text-si-navy">
-            {formatRm(results.savings25YearMin, true)} – {formatRm(results.savings25YearMax, true)}
+            <CountUpText target={results.savings25YearMin} format={(v) => formatRm(v, true)} /> –{" "}
+            <CountUpText target={results.savings25YearMax} format={(v) => formatRm(v, true)} />
           </p>
           <p className="mt-1 text-sm text-si-muted">
             Over 25 years (average lifespan of PV panels)
@@ -142,13 +163,15 @@ export default function ResultsPage({
         <div className="rounded-2xl border border-si-border bg-white p-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {[
-              { icon: "🚗", val: `${results.carsOffRoad}`, label: "cars off the road" },
-              { icon: "🌳", val: `${results.treesEquivalent}`, label: "trees planted equiv." },
-              { icon: "☁️", val: `${results.co2TonsPerYear} tons/yr`, label: "CO₂ reduction" },
+              { icon: "🚗", target: results.carsOffRoad, format: (v: number) => `${Math.round(v)}`, label: "cars off the road" },
+              { icon: "🌳", target: results.treesEquivalent, format: (v: number) => `${Math.round(v)}`, label: "trees planted equiv." },
+              { icon: "☁️", target: results.co2TonsPerYear, format: (v: number) => `${v.toFixed(2)} tons/yr`, label: "CO₂ reduction" },
             ].map((item) => (
               <div key={item.label} className="flex flex-col items-center text-center">
                 <span className="text-3xl mb-2" aria-hidden="true">{item.icon}</span>
-                <span className="text-xl font-extrabold text-si-navy">{item.val}</span>
+                <span className="text-xl font-extrabold tabular-nums text-si-navy">
+                  <CountUpText target={item.target} format={item.format} />
+                </span>
                 <span className="text-xs font-semibold text-si-muted mt-1">{item.label}</span>
               </div>
             ))}
