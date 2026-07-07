@@ -4,6 +4,7 @@ export interface SiteSettings {
   contact_email: string;
   contact_phone: string;
   whatsapp_number: string;
+  whatsapp_prefill_text: string;
   sales_email: string;
   logo_url: string;
   privacy_policy_url: string;
@@ -15,10 +16,11 @@ export interface SiteSettings {
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   company_name: "Suria Infiniti",
   company_tagline: "Malaysia's trusted solar partner",
-  contact_email: "taufik@suriainfiniti.com",
-  contact_phone: "+60 12-707 5391",
-  whatsapp_number: "60127075391",
-  sales_email: "taufik@suriainfiniti.com",
+  contact_email: "info@suriainfiniti.com",
+  contact_phone: "+60 3-6150 5399",
+  whatsapp_number: "60361505399",
+  whatsapp_prefill_text: "solarenergy",
+  sales_email: "info@suriainfiniti.com",
   logo_url: "/images/logo-suria.svg",
   privacy_policy_url: "https://suriainfiniti.com/privacy-policy/",
   installations_count: "500+",

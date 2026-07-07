@@ -104,8 +104,12 @@ adminHeader('Site Settings', 'settings');
         <input type="text" id="contact_phone" name="contact_phone" value="<?= e($settings['contact_phone']) ?>">
       </div>
       <div>
-        <label for="whatsapp_number">WhatsApp Number (digits only, e.g. 60127075391)</label>
+        <label for="whatsapp_number">WhatsApp Number (digits only, e.g. 60361505399)</label>
         <input type="text" id="whatsapp_number" name="whatsapp_number" value="<?= e($settings['whatsapp_number']) ?>">
+      </div>
+      <div>
+        <label for="whatsapp_prefill_text">WhatsApp Prefill Message (header & floating button)</label>
+        <input type="text" id="whatsapp_prefill_text" name="whatsapp_prefill_text" value="<?= e($settings['whatsapp_prefill_text'] ?? 'solarenergy') ?>">
       </div>
       <div>
         <label for="sales_email">Lead Notification Email</label>

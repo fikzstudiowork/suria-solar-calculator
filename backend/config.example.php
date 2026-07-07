@@ -34,7 +34,7 @@ return [
 
     'mail' => [
         'enabled' => true,
-        'to' => 'taufik@suriainfiniti.com',
+        'to' => 'info@suriainfiniti.com',
         'from' => 'noreply@suriainfiniti.com',
         'from_name' => 'Suria Solar Calculator',
         'smtp_host' => 'localhost',

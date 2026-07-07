@@ -39,10 +39,11 @@ if (!fs.existsSync(SETTINGS_FILE)) {
   } else {
     fs.writeFileSync(SETTINGS_FILE, JSON.stringify({
       company_name: "Suria Infiniti",
-      contact_email: "taufik@suriainfiniti.com",
-      contact_phone: "+60 12-707 5391",
-      whatsapp_number: "60127075391",
-      sales_email: "taufik@suriainfiniti.com",
+      contact_email: "info@suriainfiniti.com",
+      contact_phone: "+60 3-6150 5399",
+      whatsapp_number: "60361505399",
+      whatsapp_prefill_text: "solarenergy",
+      sales_email: "info@suriainfiniti.com",
       logo_url: "/images/logo-suria.svg",
       privacy_policy_url: "https://suriainfiniti.com/privacy-policy/",
       company_tagline: "Malaysia's trusted solar partner",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { SiteSettingsProvider } from "@/components/SiteSettingsProvider";
+import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -28,6 +29,7 @@ export default function RootLayout({
       >
         <SiteSettingsProvider>
           <div className="si-calc-wrapper min-h-screen bg-white">{children}</div>
+          <WhatsAppFloatingButton />
         </SiteSettingsProvider>
       </body>
     </html>

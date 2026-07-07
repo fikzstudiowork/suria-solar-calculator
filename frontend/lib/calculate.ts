@@ -161,10 +161,12 @@ export const MALAYSIAN_STATES = [
 
 export const BILL_CHIPS = [200, 300, 400, 500] as const;
 
-export const WHATSAPP_NUMBER = "60127075391";
+import { buildWhatsAppLink } from "./whatsapp";
+
+export const WHATSAPP_NUMBER = "60361505399";
 export const PRIVACY_POLICY_URL = "https://suriainfiniti.com/privacy-policy/";
-export const CONTACT_EMAIL = "taufik@suriainfiniti.com";
-export const CONTACT_PHONE = "+60 12-707 5391";
+export const CONTACT_EMAIL = "info@suriainfiniti.com";
+export const CONTACT_PHONE = "+60 3-6150 5399";
 
 export function buildWhatsAppUrl(
   name: string,
@@ -172,15 +174,14 @@ export function buildWhatsAppUrl(
   inputs: CalcInputs,
   whatsappNumber = WHATSAPP_NUMBER
 ): string {
-  const text = encodeURIComponent(
+  const text =
     `Hi Suria Infiniti, I'm ${name}. I used your solar calculator and got:\n` +
-      `- System size: ${results.recommendedKwp} kWp\n` +
-      `- Est. monthly savings: RM ${results.estMonthlySavings}\n` +
-      `- Roof: ${inputs.roofType}\n` +
-      `- Storeys: ${inputs.storeys}\n` +
-      `I'd like to get an exact quote.`
-  );
-  return `https://wa.me/${whatsappNumber}?text=${text}`;
+    `- System size: ${results.recommendedKwp} kWp\n` +
+    `- Est. monthly savings: RM ${results.estMonthlySavings}\n` +
+    `- Roof: ${inputs.roofType}\n` +
+    `- Storeys: ${inputs.storeys}\n` +
+    `I'd like to get an exact quote.`;
+  return buildWhatsAppLink(whatsappNumber, text);
 }
 
 export function formatRm(value: number, compact = false): string {
